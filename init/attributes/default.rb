@@ -4,6 +4,18 @@
 default['log_folder_dir'] = '/opt/temp'
 default['log_file_dir'] = '/opt/temp/logfile.txt'
 
+# configfile location, for use during deployment
+default['config_folder_dir'] = '/opt/temp'
+default['config_file_dir'] = '/opt/temp/config.txt'
+
+# customfile location, for use during deployment
+default['custom_folder_dir'] = '/opt/temp'
+default['custom_file_dir'] = '/opt/temp/custom.txt'
+
+# pathsfile location, used by run code to find relevant information/parameters
+default['paths_folder_dir'] = '/opt/temp'
+default['paths_file_dir'] = '/opt/temp/paths.txt'
+
 # aws directory, to be created recursively
 default['aws_folder_dir'] = '/opt/aws'
 
@@ -23,4 +35,3 @@ default['aws-sdk-version'] = nil
 # set the version of ruby that will be installed
 set['opsworks']['ruby_version'] = '1.9.3'
 set['opsworks']['ruby_stack'] = 'ruby'
-
