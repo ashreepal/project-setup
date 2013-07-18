@@ -1,11 +1,9 @@
 require 'yaml'
 
+# records path to important files that will need to be accessed by the runner later
 paths = {}
 paths['config'] = node['config_file_dir']
 paths['custom'] = node['custom_file_dir']
-
-Chef::Log.info("type of node[:deploy]: #{node[:deploy].class}")
-Chef::Log.info("type of node: #{node.class}")
 
 node[:deploy].each do |application, deploy|
   paths['workflows'] = node['workflow-paths'].map { |p| "#{deploy[:deploy_to]}/current/#{p}" }
@@ -14,8 +12,8 @@ end
 
 directory "#{node['paths_folder_dir']}" do
   mode '0755'
-  owner 'root'
-  group 'root'
+  owner node['user']
+  group node['group']
   action :nothing
   recursive true
   
@@ -27,8 +25,8 @@ end.run_action(:create)
 
 file node['paths_file_dir'] do
   mode '0755'
-  owner 'root'
-  group 'root'
+  owner node['user']
+  group node['group']
   content paths.to_yaml
   action :nothing
 

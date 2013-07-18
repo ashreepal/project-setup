@@ -1,22 +1,37 @@
-file '/home/ubuntu/runner.rb' do
+directory node['runner_folder_dir'] do
   mode '0755'
-  owner 'root'
-  group 'root'
-  content 'require \'runner-gem\''
+  owner node['user']
+  group node['group']
   action :nothing
-
-  only_if do
-    ::File.exists?('/home/ubuntu/')
+  recursive true
+  
+  not_if do
+    ::File.exists?(node['runner_folder_dir'])
   end
 
 end.run_action(:create)
 
-node[:deploy].each do |application, deploy|    
+# create the runner ruby file (just requires runner-gem)
+file "#{node['runner_file_dir']}" do
+  mode '0755'
+  owner node['user']
+  group node['group']
+  content 'require \'runner-gem\''
+  action :nothing
+
+  only_if do
+    ::File.exists?("#{node['runner_folder_dir']}")
+  end
+
+end.run_action(:create)
+
+# run the code
+node[:deploy].each do |application, deploy|
   bash 'run_code' do
-    code "sudo ruby /home/ubuntu/runner.rb"
+    code "sudo -u #{node['user']} ruby #{node['runner_file_dir']}"
       
     only_if do
-      ::File.exists?("/home/ubuntu/runner.rb")
+      ::File.exists?("#{node['runner_file_dir']}")
     end
   end
 end

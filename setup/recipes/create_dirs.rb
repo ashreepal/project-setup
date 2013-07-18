@@ -1,8 +1,8 @@
 # Creating directory for the log file
-log_dir = directory "#{node['log_folder_dir']}" do
+directory "#{node['log_folder_dir']}" do
   mode '0755'
-  owner 'root'
-  group 'root'
+  owner node['user']
+  group node['group']
   action :nothing
   recursive true
   
@@ -10,6 +10,4 @@ log_dir = directory "#{node['log_folder_dir']}" do
     ::File.exists?(node['log_folder_dir'])
   end
 
-end
-
-log_dir.run_action(:create)
+end.run_action(:create)
