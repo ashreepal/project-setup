@@ -1,13 +1,5 @@
-# creates the directory of aws_folder_dir recursively
-directory "#{node['aws_folder_dir']}" do
-  mode '0755'
-  owner node['user'] 
-  group node['group']
-  action :nothing
-  recursive true
-  
-  not_if do
-    ::File.exists?(node['aws_folder_dir'])
-  end
+# creates the directory of aws_folder_dir recursivey
 
-end.run_action(:create)
+# IS THIS EVEN NECESSARY?
+
+#new_dir(node['aws_folder_dir'], '0755', node['user'], node['group'])

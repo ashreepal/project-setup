@@ -1,3 +1,9 @@
+# allows recipes to use the functions new_dir and new_file defined in the init
+# cookbook libraries (see init/libraries/default.rb for exact method code)
+class Chef::Recipe
+  include FileHelper
+end
+
 # set up initial files and directories
 include_recipe 'setup::default'
 
